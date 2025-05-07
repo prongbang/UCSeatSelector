@@ -1,15 +1,15 @@
 //
-//  FVSeatsPickerIndexView.m
-//  FVCinemaSeatsView
+//  UCSeatsPickerIndexView.m
+//  UCCinemaSeatsView
 //
 //  Created by iforvert on 2016/11/13.
 //  Copyright © 2016年 iforvert. All rights reserved.
 //  代码地址：https://www.github.com/Upliver/FVSeatsPicker
 
-#import "FVSeatsPickerIndexView.h"
+#import "UCSeatsPickerIndexView.h"
 #import <CoreText/CoreText.h>
 
-@implementation FVSeatsPickerIndexView
+@implementation UCSeatsPickerIndexView
 {
     NSParagraphStyle* _style;
     UIFont* _defaultFont;

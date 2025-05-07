@@ -1,27 +1,27 @@
 //
-//  FVSeatsPicker.m
-//  FVCinemaSeatsView
+//  UCSeatsPicker.m
+//  UCCinemaSeatsView
 //
 //  Created by iforvert on 2016/11/13.
 //  Copyright © 2016年 iforvert. All rights reserved.
 //  代码地址：https://www.github.com/Upliver/FVSeatsPicker
 
-#import "FVSeatsPicker.h"
-#import "FVSeatsPickerIndexView.h"
+#import "UCSeatsPicker.h"
+#import "UCSeatsPickerIndexView.h"
 #import <objc/runtime.h>
 
 static const CGFloat kRowIndexWidth = 14;
 static const char kSeatInfo;
 
 
-@interface FVSeatsPicker()<UIScrollViewDelegate>
+@interface UCSeatsPicker()<UIScrollViewDelegate>
 
 @end
 
-@implementation FVSeatsPicker
+@implementation UCSeatsPicker
 {
     UIView* _contentView;
-    FVSeatsPickerIndexView* _rowIndexView;
+    UCSeatsPickerIndexView* _rowIndexView;
     
     NSMutableDictionary<NSNumber*, UIImage*>* _imageDict;
     NSArray<UIButton*>* _buttons;
@@ -80,22 +80,22 @@ static const char kSeatInfo;
     static NSBundle *seatBundle = nil;
     if (seatBundle == nil)
     {
-        seatBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"FVSeatsPicker" ofType:@"bundle"]];
+        seatBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"UCSeatsPicker" ofType:@"bundle"]];
     }
     return seatBundle;
 }
 
-- (NSArray<FVSeatItem *>*)selectedSeats
+- (NSArray<UCSeatItem *>*)selectedSeats
 {
     NSArray<UIButton*>* buttons = [_buttons filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"selected = %@", @(YES)]];
     if (buttons.count)
     {
-        NSMutableArray<FVSeatItem *>* list = [NSMutableArray array];
+        NSMutableArray<UCSeatItem *>* list = [NSMutableArray array];
         [buttons enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            FVSeatItem* info = objc_getAssociatedObject(obj, &kSeatInfo);
+            UCSeatItem* info = objc_getAssociatedObject(obj, &kSeatInfo);
             if (info) {[list addObject:info];};
         }];
-        [list sortUsingComparator:^NSComparisonResult(FVSeatItem* _Nonnull obj1, FVSeatItem* _Nonnull obj2) {
+        [list sortUsingComparator:^NSComparisonResult(UCSeatItem* _Nonnull obj1, UCSeatItem* _Nonnull obj2) {
             if (obj1.row < obj2.row) return NSOrderedAscending;
             else if (obj1.row > obj2.row) return NSOrderedDescending;
             else if (obj1.col < obj2.col) return NSOrderedAscending;
@@ -107,7 +107,7 @@ static const char kSeatInfo;
     return nil;
 }
 
-- (void)setSeatsDelegate:(id<FVSeatsPickerDelegate>)seatsDelegate
+- (void)setSeatsDelegate:(id<UCSeatsPickerDelegate>)seatsDelegate
 {
     _seatsDelegate = seatsDelegate;
     
@@ -136,7 +136,7 @@ static const char kSeatInfo;
     _contentView = [UIView new];
     NSMutableArray<UIButton*>* buttons = [NSMutableArray array];
     
-    for (FVSeatItem* info in _seats)
+    for (UCSeatItem* info in _seats)
     {
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake((info.coordinateX - 1) * _cellSize.width + _boundsInset.left,
@@ -149,7 +149,7 @@ static const char kSeatInfo;
             [button setImage:_imageDict[state] forState:state.unsignedIntegerValue];
         }
         
-        button.enabled = info.seatStatus == FVSeatsStateAvailable;
+        button.enabled = info.seatStatus == UCSeatsStateAvailable;
         objc_setAssociatedObject(button, &kSeatInfo, info, OBJC_ASSOCIATION_ASSIGN);
         [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [buttons addObject:button];
@@ -166,7 +166,7 @@ static const char kSeatInfo;
     _buttons = [NSArray arrayWithArray:buttons];
     
     _rowIndexView = ({
-        FVSeatsPickerIndexView* indexView = [[FVSeatsPickerIndexView alloc] initWithFrame:CGRectMake(0, _boundsInset.top, kRowIndexWidth, _rowCount * _cellSize.height)];
+        UCSeatsPickerIndexView* indexView = [[UCSeatsPickerIndexView alloc] initWithFrame:CGRectMake(0, _boundsInset.top, kRowIndexWidth, _rowCount * _cellSize.height)];
         indexView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.6];
         indexView.indexList = [self buildRowIndexList];
         [_contentView addSubview:indexView];
@@ -183,7 +183,7 @@ static const char kSeatInfo;
             [arr addObject:[NSString string]];
         }
         
-        [_seats enumerateObjectsUsingBlock:^(FVSeatItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [_seats enumerateObjectsUsingBlock:^(UCSeatItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSUInteger row = obj.coordinateY - 1;
             if (row < _rowCount && arr[row].length == 0)
             {
@@ -201,7 +201,7 @@ static const char kSeatInfo;
 
 - (void)buttonClicked:(UIButton* )button
 {
-    FVSeatItem *info = objc_getAssociatedObject(button, &kSeatInfo);
+    UCSeatItem *info = objc_getAssociatedObject(button, &kSeatInfo);
     if (button.selected)
     {
         if (!_flags.responseToShouldDeselectSeat || [_seatsDelegate shouldDeselectSeat:info inPicker:self])
@@ -234,7 +234,7 @@ static const char kSeatInfo;
     }
 }
 
-- (void)tryToChangeSelectionOfSeat:(FVSeatItem *)seat
+- (void)tryToChangeSelectionOfSeat:(UCSeatItem *)seat
 {
     if (!seat || !_buttons.count)
     {

@@ -1,14 +1,14 @@
 //
-//  FVSeatItem.m
-//  FVCinemaSeatsView
+//  UCSeatItem.m
+//  UCCinemaSeatsView
 //
 //  Created by iforvert on 2016/11/13.
 //  Copyright © 2016年 iforvert. All rights reserved.
 //  代码地址：https://www.github.com/Upliver/FVSeatsPicker
 
-#import "FVSeatItem.h"
+#import "UCSeatItem.h"
 
-@implementation FVSeatItem
+@implementation UCSeatItem
 
 - (NSString *)description
 {

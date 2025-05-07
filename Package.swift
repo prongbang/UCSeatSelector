@@ -4,20 +4,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "FVSeatsPicker",
+    name: "UCSeatSelector",
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "FVSeatsPicker",
-            targets: ["FVSeatsPicker"],
+            name: "UCSeatSelector",
+            targets: ["UCSeatSelector"],
         ),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "FVSeatsPicker",
-            path: "Sources/FVSeatsPicker",
+            name: "UCSeatSelector",
+            path: "Sources/UCSeatSelector",
             exclude: [],
             sources: ["."],
             publicHeadersPath: "include",
@@ -26,8 +26,8 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "FVSeatsPickerTests",
-            dependencies: ["FVSeatsPicker"]
+            name: "UCSeatSelectorTests",
+            dependencies: ["UCSeatSelector"]
         ),
     ]
 )
