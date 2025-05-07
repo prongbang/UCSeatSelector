@@ -1,13 +1,14 @@
 //
 //  UCSeatsPicker.h
-//  UCCinemaSeatsView
+//  FVCinemaSeatsView
 //
 //  Created by iforvert on 2016/11/13.
 //  Copyright © 2016年 iforvert. All rights reserved.
-//  代码地址：https://www.github.com/Upliver/FVSeatsPicker
+//  代码地址：https://www.github.com/Upliver/UCSeatsPicker
 
 #import <UIKit/UIKit.h>
 #import "UCSeatItem.h"
+#import "UCSeatTypeItem.h"
 
 @class UCSeatsPicker;
 
@@ -30,7 +31,15 @@
 @property (nonatomic, assign) CGSize cellSize;
 @property (nonatomic, assign) NSUInteger rowCount;
 @property (nonatomic, assign) NSUInteger colCount;
-@property (nonatomic, assign) NSArray<UCSeatItem *>* seats;
+@property (nonatomic, strong) NSString* screenText;
+@property (nonatomic, strong) UIFont* screenTextFont;
+@property (nonatomic, strong) UIColor* screenTextColor;
+@property (nonatomic, strong) NSArray<UCSeatItem *>* seats;
+@property (nonatomic, strong) NSArray<UCSeatTypeItem *>* seatTypes;
+@property (nonatomic, strong) NSArray<NSString *>* customIndexList;
+@property (nonatomic, strong) UIFont* customIndexListFont;
+@property (nonatomic, strong) UIColor* customIndexListLabelColor;
+@property (nonatomic, strong) UIColor* customIndexListBackgroundColor;
 
 - (NSArray<UCSeatItem *>*)selectedSeats;
 - (void)setImage:(UIImage* )image forState:(UIControlState)state;
