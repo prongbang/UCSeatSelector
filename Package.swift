@@ -9,7 +9,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "UCSeatSelector",
-            targets: ["UCSeatSelector"],
+            targets: ["UCSeatSelector"]
         ),
     ],
     targets: [
@@ -17,12 +17,12 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "UCSeatSelector",
-            path: "Sources/UCSeatSelector",
-            exclude: [],
-            sources: ["."],
-            publicHeadersPath: "include",
+            path: "Sources",
+            exclude: ["Resources/Root.plist", "Resources/en.lproj"],
+            sources: ["UCSeatSelector"],
+            publicHeadersPath: ".",
             resources: [
-                .copy("../Resources")
+                .process("Resources")
             ]
         ),
         .testTarget(
