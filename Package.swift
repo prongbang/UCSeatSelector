@@ -17,12 +17,12 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "UCSeatSelector",
-            path: "Sources/UCSeatSelector",
-            exclude: [],
-            sources: ["."],
-            publicHeadersPath: "include",
+            path: "Sources",
+            exclude: ["Resources/Root.plist", "Resources/en.lproj"],
+            sources: ["FVSeatsPicker"],
+            publicHeadersPath: "FVSeatsPicker/include",
             resources: [
-                .copy("../Resources")
+                .process("Resources")
             ]
         ),
         .testTarget(
