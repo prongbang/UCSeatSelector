@@ -1,15 +1,19 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "UCSeatSelector",
+    defaultLocalization: "en",
+    platforms: [
+        .iOS(.v13)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "UCSeatSelector",
-            targets: ["UCSeatSelector"],
+            targets: ["UCSeatSelector"]
         ),
     ],
     targets: [
@@ -18,12 +22,10 @@ let package = Package(
         .target(
             name: "UCSeatSelector",
             path: "Sources/UCSeatSelector",
-            exclude: [],
-            sources: ["."],
-            publicHeadersPath: "include",
             resources: [
-                .copy("../Resources")
-            ]
+                .process("Resources")
+            ],
+            publicHeadersPath: "include"
         ),
         .testTarget(
             name: "UCSeatSelectorTests",
