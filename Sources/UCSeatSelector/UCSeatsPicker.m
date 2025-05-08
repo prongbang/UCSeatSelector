@@ -15,7 +15,7 @@ static const char kSeatInfo;
 
 
 @interface UCSeatsPicker()<UIScrollViewDelegate>
-
+@property (nonatomic, strong) UILabel *screenLabel;
 @end
 
 @implementation UCSeatsPicker
@@ -46,6 +46,14 @@ static const char kSeatInfo;
         [self configDefaultSeatsIcon];
         _boundsInset = UIEdgeInsetsMake(20, 20, 20, 20);
         self.delegate = self;
+        
+        // Initialize new properties with default values
+        _screenText = @"Screen";
+        _screenTextFont = [UIFont boldSystemFontOfSize:16.0];
+        _screenTextColor = [UIColor blackColor];
+        _customIndexListFont = [UIFont systemFontOfSize:10.0];
+        _customIndexListLabelColor = [UIColor whiteColor];
+        _customIndexListBackgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.6];
     }
     return self;
 }
@@ -121,6 +129,7 @@ static const char kSeatInfo;
 - (void)reloadData
 {
     [_contentView removeFromSuperview];
+    [_screenLabel removeFromSuperview];
     _buttons = nil;
     _rowIndexView = nil;
     
@@ -165,10 +174,29 @@ static const char kSeatInfo;
     self.contentSize = size;
     _buttons = [NSArray arrayWithArray:buttons];
     
+    // Add screen label
+    [self setupScreenLabel];
+    
+    // Create row index view with customization options
     _rowIndexView = ({
         UCSeatsPickerIndexView* indexView = [[UCSeatsPickerIndexView alloc] initWithFrame:CGRectMake(0, _boundsInset.top, kRowIndexWidth, _rowCount * _cellSize.height)];
-        indexView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.6];
-        indexView.indexList = [self buildRowIndexList];
+        indexView.backgroundColor = _customIndexListBackgroundColor ?: [[UIColor darkGrayColor] colorWithAlphaComponent:0.6];
+        
+        // Use custom index list if provided
+        if (_customIndexList && _customIndexList.count > 0) {
+            indexView.indexList = _customIndexList;
+        } else {
+            indexView.indexList = [self buildRowIndexList];
+        }
+        
+        // Set custom font and color if provided
+        if (_customIndexListFont) {
+            indexView.font = _customIndexListFont;
+        }
+        if (_customIndexListLabelColor) {
+            indexView.textColor = _customIndexListLabelColor;
+        }
+        
         [_contentView addSubview:indexView];
         indexView;
     });
@@ -284,6 +312,82 @@ static const char kSeatInfo;
     [self repositionIndexView];
 }
 
+- (void)setupScreenLabel
+{
+    if (_screenText.length > 0) {
+        if (!_screenLabel) {
+            _screenLabel = [[UILabel alloc] init];
+            _screenLabel.textAlignment = NSTextAlignmentCenter;
+        }
+        
+        _screenLabel.text = _screenText;
+        _screenLabel.font = _screenTextFont ?: [UIFont boldSystemFontOfSize:16.0];
+        _screenLabel.textColor = _screenTextColor ?: [UIColor blackColor];
+        
+        CGFloat labelWidth = _colCount * _cellSize.width;
+        CGFloat labelHeight = 30.0; // Default height for screen label
+        
+        _screenLabel.frame = CGRectMake(_boundsInset.left, 0, labelWidth, labelHeight);
+        [_contentView addSubview:_screenLabel];
+    }
+}
 
+- (void)setScreenText:(NSString *)screenText
+{
+    if (![_screenText isEqualToString:screenText]) {
+        _screenText = [screenText copy];
+        if (_contentView) {
+            [self setupScreenLabel];
+        }
+    }
+}
+
+- (void)setScreenTextFont:(UIFont *)screenTextFont
+{
+    _screenTextFont = screenTextFont;
+    if (_screenLabel) {
+        _screenLabel.font = screenTextFont;
+    }
+}
+
+- (void)setScreenTextColor:(UIColor *)screenTextColor
+{
+    _screenTextColor = screenTextColor;
+    if (_screenLabel) {
+        _screenLabel.textColor = screenTextColor;
+    }
+}
+
+- (void)setCustomIndexList:(NSArray<NSString *> *)customIndexList
+{
+    _customIndexList = [customIndexList copy];
+    if (_rowIndexView) {
+        _rowIndexView.indexList = customIndexList;
+    }
+}
+
+- (void)setCustomIndexListFont:(UIFont *)customIndexListFont
+{
+    _customIndexListFont = customIndexListFont;
+    if (_rowIndexView) {
+        _rowIndexView.font = customIndexListFont;
+    }
+}
+
+- (void)setCustomIndexListLabelColor:(UIColor *)customIndexListLabelColor
+{
+    _customIndexListLabelColor = customIndexListLabelColor;
+    if (_rowIndexView) {
+        _rowIndexView.textColor = customIndexListLabelColor;
+    }
+}
+
+- (void)setCustomIndexListBackgroundColor:(UIColor *)customIndexListBackgroundColor
+{
+    _customIndexListBackgroundColor = customIndexListBackgroundColor;
+    if (_rowIndexView) {
+        _rowIndexView.backgroundColor = customIndexListBackgroundColor;
+    }
+}
 
 @end
