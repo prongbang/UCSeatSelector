@@ -26,12 +26,4 @@ const unsigned char UCSeatSelectorVersionString[] = "1.0.0";
     return [NSString stringWithUTF8String:(const char *)UCSeatSelectorVersionString];
 }
 
-// Initialization method if needed
-+ (void)initialize {
-    if (self == [UCSeatSelector class]) {
-        // Any one-time framework initialization code here
-        NSLog(@"UCSeatSelector framework initialized. Version: %@", [self frameworkVersion]);
-    }
-}
-
 @end
