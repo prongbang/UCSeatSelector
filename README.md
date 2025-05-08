@@ -15,7 +15,7 @@ Add to your `Package.swift`:
 ```swift
 let package = Package(
   dependencies: [
-    .package(url: "https://github.com/prongbang/UCSeatsPicker.git", from: "0.0.12"),
+    .package(url: "https://github.com/prongbang/UCSeatsPicker.git", from: "0.0.13"),
   ],
 )
 ```
