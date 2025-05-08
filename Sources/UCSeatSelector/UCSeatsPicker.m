@@ -189,14 +189,6 @@ static const char kSeatInfo;
             indexView.indexList = [self buildRowIndexList];
         }
         
-        // Set custom font and color if provided
-        if (_customIndexListFont) {
-            indexView.font = _customIndexListFont;
-        }
-        if (_customIndexListLabelColor) {
-            indexView.textColor = _customIndexListLabelColor;
-        }
-        
         [_contentView addSubview:indexView];
         indexView;
     });
@@ -363,22 +355,6 @@ static const char kSeatInfo;
     _customIndexList = [customIndexList copy];
     if (_rowIndexView) {
         _rowIndexView.indexList = customIndexList;
-    }
-}
-
-- (void)setCustomIndexListFont:(UIFont *)customIndexListFont
-{
-    _customIndexListFont = customIndexListFont;
-    if (_rowIndexView) {
-        _rowIndexView.font = customIndexListFont;
-    }
-}
-
-- (void)setCustomIndexListLabelColor:(UIColor *)customIndexListLabelColor
-{
-    _customIndexListLabelColor = customIndexListLabelColor;
-    if (_rowIndexView) {
-        _rowIndexView.textColor = customIndexListLabelColor;
     }
 }
 
